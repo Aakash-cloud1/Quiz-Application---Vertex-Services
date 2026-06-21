@@ -2,8 +2,6 @@
 
 A Java – Spring Boot – Maven based Quiz Application supporting quiz creation, quiz attempts, database persistence (MySQL), authentication, and a modular MVC architecture.
 
-This project is designed for academic & educational demonstration and showcases a full end-to-end quiz management workflow.
-
 ##  Technology Stack
 - **Backend**: Java 17, Spring Boot 3.3.1
 - **Database**: MySQL 8+
