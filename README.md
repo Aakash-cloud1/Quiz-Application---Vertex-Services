@@ -1,128 +1,81 @@
-# 📚 Quiz Application – Java Spring Boot Project
+#  Quiz Application – Java Spring Boot Project
 
-A Java – Spring Boot – Maven based Quiz Application supporting quiz creation, quiz attempts, QR code generation, JSON-based storage, authentication, and a modular MVC architecture.
+A Java – Spring Boot – Maven based Quiz Application supporting quiz creation, quiz attempts, database persistence (MySQL), authentication, and a modular MVC architecture.
 
 This project is designed for academic & educational demonstration and showcases a full end-to-end quiz management workflow.
 
-## Team Contributions
-### BT2024208 – Attuluri Aakash
-- Implemented major components of Authentication (AuthenticationService.java, AuthenticationController.java, User.java, Student.java, Admin.java)
-- Coordinated team work distribution, debugging, and cross-file integration.
+##  Technology Stack
+- **Backend**: Java 17, Spring Boot 3.3.1
+- **Database**: MySQL 8+
+- **Frontend**: HTML, CSS, Thymeleaf templates
+- **Build Tool**: Apache Maven
 
-### BT2024211 – Rudraraju Dhanush Varma
-- Implemented all Java files inside the qrcode module.
-- Worked on qr-style.css.
-- Contributed to authentication logic (Controller + Service).
+##  Key Features
+- **Secure Authentication**: Role-based Login/Signup for `ADMIN` and `STUDENT`.
+- **Quiz Management (Admin)**: Create, manage, edit, and delete quizzes. Add and manage questions with multiple choices.
+- **Quiz Attempts (Student)**: Attempt quizzes within the designated time frame. Auto-grading and score calculation.
+- **Review System**: Students can review their attempted quizzes, seeing their submitted answers and the correct answers.
+- **QR Code Generation**: Generate QR codes for any public or private URLs.
+- **Clean Architecture**: Follows the MVC pattern (Controllers → Services → Models).
 
-### BT2024166 – Abhiram PBS
-- Implemented all HTML template files (UI pages).
-- Contributed to qr-style.css.
-- Developed FileStorage.java functionality:
-  - Loading Student/Admin details from JSON
-  - Adding & saving new users
-  - Generating next available user IDs
-
-### BT2024165 – Kenche Siddarth
-- Developed Java files for quiz implementation (QuizController.java, QuizService.java, Question.java, Quiz.java)
-- Handled JSON-based storage for quizzes: loading, saving, updating structures
-- Contributed to FileStorage.java.
-
-### BT2024139 – Mannam Geethika
-- Implemented major portions of Quiz Logic (QuizController.java, QuizService.java, Question.java, Quiz.java)
-- Contributed to LogoutController.java and PageController.java.
-
-### BT2024215 – Akshaya Akula
-- Developed components related to Quiz Attempts (Attempt.java, AttemptService.java)
-- Implemented Review My Quiz feature.
-- Updated FileStorage.java to support attempts.json operations.
-
-## Project Structure
+##  Project Structure
 ```
-quiz_app_full/
-│── pom.xml
+Vertex MicroServices/
+│── pom.xml                   # Maven dependencies and configuration
+│── schema.sql                # MySQL database schema setup script
 │── src/
 │   ├── main/
-│   │   ├── java/
-│   │   │   ├── controller/     
-│   │   │   ├── model/          
-│   │   │   ├── service/        
-│   │   │   ├── qrcode/         
-│   │   │   └── storage/        
+│   │   ├── java/com/example/quizapp/
+│   │   │   ├── controller/   # Web request handlers and routing
+│   │   │   ├── model/        # Data structures (User, Quiz, Question, Attempt)
+│   │   │   ├── service/      # Business logic (Auth, Quiz management)
+│   │   │   └── qrcode/       # QR Code utility classes
 │   │   └── resources/
-│   │       ├── templates/      
-│   │       └── static/         
-│   └── test/                   
-│── target/                     
+│   │       ├── application.properties # Spring Boot & Database configuration
+│   │       ├── static/       # CSS, JS, Images
+│   │       └── templates/    # Thymeleaf HTML views
 ```
 
-## Key Features
-### Secure Authentication
-- Login/signup for Admins and Students
+##  How to Run the Application
 
-### Quiz Management
-- Create, modify, and update quizzes
-- JSON-based persistent quiz storage
+### Prerequisites
+Ensure you have the following installed on your system:
+- **Java JDK 17+** (`java -version`)
+- **Apache Maven 3.6+** (`mvn -version`)
+- **MySQL Server 8.x** (`mysql --version`)
 
-### Quiz Attempt & Review
-- Attempt quizzes
-- Automatic evaluation
-- Review My Quiz feature
-
-### JSON Storage System
-- Users, Quizzes, Attempts stored in JSON
-
-### QR Code Generation
-- Generate QR codes for quiz results, verification, admin tools
-
-### UI Templates
-- Built using Thymeleaf
-
-### Clean MVC Architecture
-- Controllers → Services → Models → Storage
-
-## Requirements
-- Java 8+
-- Maven 3.6+
-- Spring Boot dependencies (pom.xml)
-
-## How to Run
+### Database Setup
+1. Open MySQL Workbench or MySQL CLI.
+2. Run the provided `schema.sql` script to create the database and tables:
+```sql
+source path/to/schema.sql;
 ```
-cd quiz_app_full
+
+###  Configure Application Properties
+Edit `src/main/resources/application.properties` and update it with your MySQL credentials:
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/quizapp?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+spring.datasource.username=root
+spring.datasource.password=your_mysql_password
+```
+
+###  Build and Run
+Open a terminal in the project root directory (`Vertex MicroServices`) and run:
+```powershell
 mvn clean install
 mvn spring-boot:run
 ```
 
-## Module Explanations
-### controller/
-Routing & HTTP request handling.
+###  Access the Application
+Once the server starts, open your web browser and navigate to:
+```
+http://localhost:8080
+```
 
-### model/
-Data models for Users, Quizzes, Attempts.
+##  Testing the APIs
+A Postman collection `Vertex_All_Controllers.postman_collection` is included in the project root. You can import it into Postman to quickly test all the endpoints.
 
-### service/
-Business logic for authentication, quiz operations, scoring, attempts.
-
-### storage/
-Handles JSON-based persistence.
-
-### qrcode/
-QR code generator utilities.
-
-### templates/
-Thymeleaf UI pages.
-
-## Testing the Application
-- Authentication
-- Quiz creation/editing
-- Quiz attempts
-- Review answers
-- JSON persistence
-- QR code generation
-
-## License
-This project is for academic and educational use only.
-
-## Limitations
-- Only single correct answer type can be created because the json structure supports to only one type of object.
-- Correct answrs are stored without masking or encryption, so anyone having access to JSON file can view them.
-- There is no option for shuffling the choices of a question to minimize cheating.
+##  Limitations & Notes
+- Only single correct answer type questions are supported.
+- Correct answers are stored directly in the database without masking or encryption.
+- There is currently no option to shuffle question choices dynamically.
